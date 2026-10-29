@@ -1,0 +1,97 @@
+<div class="pf-app">
+  <header class="pf-topbar">
+    <div class="pf-brand-mark">ϟ</div>
+    <div class="pf-brand">PANELFORGE</div>
+    <div class="pf-tagline">Make your custom panel</div>
+    <div class="pf-language"><button class="active" data-lang="RU">RU</button><button data-lang="ENG">ENG</button></div>
+  </header>
+
+  <div class="pf-tabs">
+    <button class="pf-tab" data-tab="script">Panel for script</button>
+    <button class="pf-tab active" data-tab="staff">Staff panel</button>
+  </div>
+
+  <div class="pf-workspace">
+    <aside class="pf-settings">
+      <section class="pf-setting-section">
+        <h3>ЗАГОЛОВОК И ПОДВАЛ</h3>
+        <div class="pf-two">
+          <label>Основное название<input id="panelTitle" value="Admin panel"></label>
+          <label>Версия<input id="panelVersion" value="1.0.0"></label>
+        </div>
+        <label>Подзаголовок (под названием)<input id="panelSubtitle" value="starve.io · press J to hide"></label>
+        <label>Автор в подвале (пусто — скрыть)<input id="panelAuthor" value=""></label>
+        <label>Горячая клавиша показа/скрытия<input id="hotkey" value="J" maxlength="1"></label>
+      </section>
+
+      <section class="pf-setting-section">
+        <h3>СЕРВЕР</h3>
+        <label>Worker URL<input id="workerUrl" type="url" value="https://dark-boat-9eea.ivan-komarov640.workers.dev/"></label>
+        <p class="pf-help">Worker status is checked with GET /. Configure authentication and commands in your own Worker. Do not put secret keys in public CodePen code.</p>
+        <div class="pf-status"><span class="pf-dot"></span><span id="workerStatus">Not checked</span></div>
+        <button class="pf-secondary" id="checkWorker">Check connection</button>
+      </section>
+
+      <section class="pf-setting-section">
+        <h3>РАЗМЕР И ОТСТУПЫ</h3>
+        <label class="pf-slider-label"><span>Размер панели</span><b id="scaleValue">100%</b></label>
+        <input id="panelScale" type="range" min="80" max="110" value="100">
+        <label class="pf-slider-label"><span>Ширина</span><b id="widthValue">780px</b></label>
+        <input id="panelWidth" type="range" min="620" max="1000" value="780">
+        <label class="pf-slider-label"><span>Закругление</span><b id="radiusValue">16px</b></label>
+        <input id="panelRadius" type="range" min="4" max="28" value="16">
+      </section>
+
+      <section class="pf-setting-section">
+        <h3>ВНЕШНИЙ ВИД</h3>
+        <label>Акцентный цвет<input id="accentColor" type="color" value="#b9c8e7"></label>
+        <label class="pf-check"><input id="liveUpdate" type="checkbox" checked> Живое обновление</label>
+        <label class="pf-check"><input id="darkMode" type="checkbox" checked> Тёмная тема</label>
+        <button class="pf-secondary" id="resetSettings">Сбросить настройки</button>
+      </section>
+    </aside>
+
+    <main class="pf-preview-area">
+      <div class="pf-toolbar">
+        <div class="pf-mode-switch"><button class="active" data-view="panel">Панель</button><button data-view="login">Окно входа</button></div>
+        <label class="pf-live"><input id="toolbarLive" type="checkbox" checked> Живое обновление</label>
+        <button class="pf-secondary" id="applySettings">↻ Применить</button>
+        <button class="pf-primary" id="getCode">🚀 Получить код панели</button>
+      </div>
+
+      <div class="pf-grid-bg">
+        <section class="pf-preview" id="preview">
+          <header class="pf-window-head">
+            <div class="pf-window-icon">⌘</div>
+            <div class="pf-window-title"><strong id="previewTitle">Admin panel</strong><span id="previewVersion">v1.0.0</span><small id="previewSubtitle">starve.io · press J to hide</small></div>
+            <div class="pf-demo-pill"><span>D</span> demo <i></i></div>
+            <button class="pf-icon-button" id="moonButton" aria-label="Toggle theme">☾</button>
+            <button class="pf-icon-button" id="minimizeButton" aria-label="Minimize">−</button>
+            <button class="pf-icon-button" id="closeButton" aria-label="Hide panel">⏻</button>
+          </header>
+          <div class="pf-panel-content" id="panelView">
+            <div class="pf-inner-tabs"><button class="active" data-inner="cards">▦ &nbsp; Commands</button><button data-inner="list">◉ &nbsp; Commands</button></div>
+            <div class="pf-command-tools"><span>COMMANDS</span><input id="commandSearch" placeholder="⌕  Search commands..."></div>
+            <div class="pf-command-grid" id="commandGrid">
+              <button class="pf-command-card" data-command="say"><strong>New command</strong><span><code>CMD</code> say</span></button>
+            </div>
+            <div class="pf-command-footer" id="authorFooter"></div>
+          </div>
+          <div class="pf-login-view" id="loginView" hidden>
+            <div class="pf-login-icon">⌑</div><h2>Welcome back</h2><p>Sign in to your panel</p>
+            <form id="loginForm"><label>Username<input id="username" autocomplete="username" placeholder="Username" required></label><label>Password<input id="password" type="password" autocomplete="current-password" placeholder="Password" required></label><button class="pf-primary" type="submit">Sign in</button></form>
+            <p class="pf-login-status" id="loginStatus">Connects to your configured Worker.</p>
+          </div>
+        </section>
+      </div>
+      <div class="pf-bottom-note">Preview only · Commands are not executed from this demo interface.</div>
+    </main>
+  </div>
+  <dialog id="codeDialog" class="pf-dialog">
+    <form method="dialog"><button class="pf-dialog-close" aria-label="Close">×</button></form>
+    <h2>Your panel settings</h2>
+    <p>Copy this configuration into your own project. Keep secrets on the server, never in CodePen.</p>
+    <textarea id="generatedCode" readonly></textarea>
+    <button class="pf-primary" id="copyCode">Copy configuration</button>
+  </dialog>
+</div>
